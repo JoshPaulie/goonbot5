@@ -8,35 +8,32 @@ from discord.ext import commands
 class Rat(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.unused_rats = self.rat_images()
-        self.used_rats = []
+        self.rats = self.get_rat_images()
 
     @staticmethod
-    def rat_images() -> list:
+    def get_rat_images() -> list:
         """Turn rat URLs textfile into list of rat URLs"""
         with open("util/txt/rats.txt", encoding="utf-8") as links:
-            unused_rats = links.read().splitlines()
-            return unused_rats
+            rats = links.read().splitlines()
+            return rats
 
     def check_rat_capacity(self):
-        if len(self.unused_rats) == 0:
-            self.unused_rats = self.used_rats
-            self.used_rats = []
+        if len(self.rats) == 0:
+            self.rats = self.get_rat_images()
 
     def pick_rat(self) -> str:
-        """Returns a random rat URL from the"""
-        chosen_rat = random.choice(self.unused_rats)
-        self.unused_rats.remove(chosen_rat)
-        self.used_rats.append(chosen_rat)
+        """Returns a random rat URL from the in-memory list, as well as removing it from the list."""
+        chosen_rat = random.choice(self.rats)
+        self.rats.remove(chosen_rat)
+        self.check_rat_capacity()
         return chosen_rat
 
     @slash_command()
     async def rat(self, ctx: discord.ApplicationContext):
         """Send an a random image from a curated list of rodents 🐀"""
         rat = self.pick_rat()
-        embed = discord.Embed(title="Rat", color=discord.Color.blurple()).set_image(url=rat)
+        embed = discord.Embed(color=discord.Color.blurple()).set_image(url=rat)
         await ctx.respond(embed=embed)  # type: ignore
-        self.check_rat_capacity()
 
 
 def setup(bot):
