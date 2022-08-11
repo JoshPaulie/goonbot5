@@ -5,14 +5,16 @@ from .cog_management import collect_cogs, load_cogs
 
 
 class GoonBot(discord.Bot):
-    """Goonbot instance"""
+    """
+    Goonbot5 instance
+    """
 
     def __init__(self):
         super().__init__(
             intents=discord.Intents(members=True, messages=True, guilds=True, bans=True),
             owner_ids=[177131156028784640],
             debug_guilds=[510865274594131968],
-            activity=discord.Activity(type=discord.ActivityType.playing, name="👨‍🚀"),
+            activity=discord.Activity(type=discord.ActivityType.playing, name="Dev Mode"),
         )
 
         collect_cogs()
