@@ -9,7 +9,6 @@ from util.countdown.countdown_tools import get_special_events_remaining
 class Countdown(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self._last_member = None
 
     @slash_command()
     async def today(self, ctx: discord.ApplicationContext) -> None:
