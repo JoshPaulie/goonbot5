@@ -1,6 +1,6 @@
 import datetime
 
-from special_events import SPECIAL_EVENTS
+from util.countdown.special_events import SPECIAL_EVENTS
 
 current_year = datetime.date.today().year
 
