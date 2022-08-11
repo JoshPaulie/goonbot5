@@ -10,7 +10,8 @@ def days_since(end_date: datetime.date, today_date: datetime.date) -> int:
 
 def get_special_events_remaining(today_date: datetime.date) -> list[tuple[str, int]]:
     """
-    Returns special events remaining for the current year
+    Returns list of special events remaining for this year, paired with how many days until said even (if any).
+    The list is ordered by closest-event-first.
 
     Note: Without a fresh datetime object being passed every call, the countdown is stuck at whatever day the bot happened to be started
     """
