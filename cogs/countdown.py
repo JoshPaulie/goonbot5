@@ -14,17 +14,17 @@ class Countdown(commands.Cog):
     async def today(self, ctx: discord.ApplicationContext) -> None:
         """Returns if it's a special day, or when the next one will be"""
         special_events_remaining = get_special_events_remaining(datetime.date.today())
-        next_event, next_event_days = special_events_remaining[0]
-        second_event, second_event_days = special_events_remaining[1]
+        next_event, next_event_days_until = special_events_remaining[0]
+        second_event, second_event_days_until = special_events_remaining[1]
 
         event_embed = discord.Embed(color=discord.Color.blurple())
-        if next_event_days == 0:
+        if next_event_days_until == 0:
             event_embed.title = f"Today is {next_event}!"
         else:
-            event_embed.title = f"{next_event} is in {next_event_days} days!"
-            event_embed.description = f"...and {second_event} is in {second_event_days}"
+            event_embed.title = f"{next_event} is in {next_event_days_until} days!"
+            event_embed.description = f"...and {second_event} is in {second_event_days_until}"
 
-        if next_event_days == 1:
+        if next_event_days_until == 1:
             event_embed.title = f"{next_event} is tomorrow! 🎉"
 
         await ctx.respond(embed=event_embed)
