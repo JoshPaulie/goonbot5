@@ -33,7 +33,7 @@ class Rat(commands.Cog):
         """Send an a random image from a curated list of rodents 🐀"""
         rat = self.pick_rat()
         embed = discord.Embed(color=discord.Color.blurple()).set_image(url=rat)
-        await ctx.respond(embed=embed)  # type: ignore
+        await ctx.respond(embed=embed)
 
 
 def setup(bot):
