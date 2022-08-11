@@ -24,7 +24,7 @@ class General(commands.Cog):
 
     @slash_command()
     async def wni(self, ctx: discord.ApplicationContext):
-        """Make it's known you would have enjoyed whatever they're doing (without you)"""
+        """Make it known that you would have enjoyed whatever they're doing (without you)"""
         complaint = random.choice(
             [
                 "Wow, no invite?",
@@ -46,14 +46,6 @@ class General(commands.Cog):
         """Gives you heads or tails"""
         coin = random.choice(["Heads", "Tails"])
         await ctx.respond(embed=discord.Embed(title=coin, color=discord.Color.blurple()))
-
-    @slash_command()
-    async def rng(self, ctx: discord.ApplicationContext, max_num: Option(int)):  # type: ignore
-        """Pulls a random number between 1 and max_num"""
-        random_number = random.randint(0, max_num)
-        await ctx.respond(
-            embed=discord.Embed(title=f"{random_number} ({max_num})", color=discord.Color.blurple())
-        )
 
 
 def setup(bot):
