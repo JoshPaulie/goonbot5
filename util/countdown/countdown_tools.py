@@ -2,8 +2,6 @@ import datetime
 
 from util.countdown.special_events import SPECIAL_EVENTS
 
-current_year = datetime.date.today().year
-
 
 def days_since(end_date: datetime.date, today_date: datetime.date) -> int:
     """Returns days since end_date from today_date. Used later to sort special events remaining in current year."""
