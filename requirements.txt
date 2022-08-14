@@ -1,2 +1,4 @@
 py-cord==2.0.0
 rich==12.5.1
+arrow==1.2.2
+twitch-python==0.0.20
