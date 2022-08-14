@@ -22,9 +22,9 @@ class GoonBot(discord.Bot):
         self.console = Console()
 
     async def on_ready(self):
-        """Prints if bot successfully comes online"""
+        """Overwrites default on_ready"""
         self.console.log(f"{self.user.name} has logged in 👍")  # type: ignore
 
     async def on_application_command(self, ctx: discord.ApplicationContext):
-        """Prints when commands are used"""
+        """Overwrites default on_application_command, acting as a console log for who used what commands, when."""
         self.console.log(f"{ctx.author.name} used {ctx.command.qualified_name}")  # type: ignore
