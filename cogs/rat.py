@@ -3,10 +3,11 @@ import random
 import discord
 from discord.commands import slash_command
 from discord.ext import commands
+from goonbot import GoonBot
 
 
 class Rat(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: GoonBot):
         self.bot = bot
         self.rats = self.get_rat_images()
 
@@ -20,6 +21,7 @@ class Rat(commands.Cog):
     def check_rat_capacity(self):
         if len(self.rats) == 0:
             self.rats = self.get_rat_images()
+            self.bot.console.log("Rats collected ...")
 
     def pick_rat(self) -> str:
         """Returns a random rat URL from the in-memory list, as well as removing it from the list."""
