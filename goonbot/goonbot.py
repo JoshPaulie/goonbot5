@@ -1,3 +1,4 @@
+import arrow
 import discord
 from rich.console import Console
 
@@ -19,6 +20,8 @@ class GoonBot(discord.Bot):
 
         collect_cogs()
         load_cogs(self)
+
+        self.startup = arrow.now()
         self.console = Console()
 
     async def on_ready(self):
