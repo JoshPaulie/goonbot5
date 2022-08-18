@@ -3,6 +3,7 @@ import discord
 import twitch
 from discord.commands import slash_command
 from discord.ext import commands
+from goonbot import GoonBot
 
 
 # type: ignore
@@ -17,7 +18,7 @@ class TwitchYoutubeView(discord.ui.View):
 
 
 class eCelebs(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: GoonBot):
         self.bot = bot
 
     @slash_command()
