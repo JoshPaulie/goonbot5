@@ -20,7 +20,7 @@ class SuggestionModal(discord.ui.Modal):
     async def callback(self, interaction: discord.Interaction):
         sassy_responses = [
             "Wow! this will definitely be implemented",
-            "Oh, nice idea buddy!",
+            "Oh, nice idea bu-ddy!",
             "I'll think about that!",
         ]
         embed = discord.Embed(title="Suggestion sent!", description=random.choice(sassy_responses))
