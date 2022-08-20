@@ -7,6 +7,8 @@ from goonbot import GoonBot
 
 
 class SuggestionModal(discord.ui.Modal):
+    """Modal used in meta.suggestion"""
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
@@ -25,9 +27,8 @@ class SuggestionModal(discord.ui.Modal):
         ]
         embed = discord.Embed(title="Suggestion sent!", description=random.choice(sassy_responses))
         suggestion_title = self.children[0].value
-        suggestion_details = self.children[1].value or "None"
-        await interaction.response.send_message(embeds=[embed])
-        print(suggestion_title, suggestion_details)
+        suggestion_details = self.children[1].value or "..."
+        await interaction.response.send_message(embed=embed)
 
 
 class Meta(commands.Cog):
