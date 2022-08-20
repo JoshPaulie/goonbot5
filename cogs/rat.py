@@ -14,7 +14,7 @@ class Rat(commands.Cog):
     @staticmethod
     def get_rat_images() -> list:
         """Turn rat URLs textfile into list of rat URLs"""
-        with open("util/txt/rats.txt", encoding="utf-8") as links:
+        with open("util/rat/rats.txt", encoding="utf-8") as links:
             rats = links.read().splitlines()
             return rats
 
