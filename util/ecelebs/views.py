@@ -5,7 +5,7 @@ import twitch
 from keys import GOOGLE, TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET
 
 
-class eCelebButtonView(discord.ui.View):
+class eCelebView(discord.ui.View):
     def __init__(
         self,
         twitch_username: str | None = None,
