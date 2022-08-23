@@ -12,7 +12,7 @@ class eCelebs(commands.Cog):
     @slash_command()
     async def thebausffs(self, ctx: discord.ApplicationContext):
         await ctx.respond(
-            view=eCelebView(youtube_channel_id="UCu7ODDeIZ4x1rJwM1LCVL8w", twitch_username="thebausffsx")
+            view=eCelebView(youtube_channel_id="UCu7ODDeIZ4x1rJwM1LCVL8w", twitch_username="thebausffs")
         )
 
     @slash_command()
