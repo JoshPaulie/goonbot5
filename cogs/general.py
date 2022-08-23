@@ -1,9 +1,10 @@
 import random
 
 import discord
-from discord.commands import Option, slash_command
+from discord.commands import slash_command, user_command
 from discord.ext import commands
 from goonbot import GoonBot
+from util.general.wni import snide_remarks
 
 
 class General(commands.Cog):
@@ -13,34 +14,27 @@ class General(commands.Cog):
         self.bot = bot
 
     @slash_command()
-    async def pfp(self, ctx: discord.ApplicationContext, user: Option(discord.Member, "Pick a goon to fetch pfp") = None):  # type: ignore
-        """Profile picture grabber"""
-        selected_user = user if user else ctx.author
-        pfp_url = selected_user.display_avatar.url  # type: ignore
-
+    async def pfp(self, ctx: discord.ApplicationContext):
+        """(OLD) Profile picture grabber"""
         embed = discord.Embed(color=discord.Color.blurple())
-        embed.set_author(name=f"{selected_user.name} 📸", url=pfp_url)  # type: ignore
+        embed.title = "/pfp has moved!"
+        embed.description = "Right click any user (including yourself)\nSelect Apps > Profile Picture"
+        await ctx.respond(embed=embed, ephemeral=True)
+
+    @user_command(name="Profile Picture")
+    async def pfp_user_command(self, ctx: discord.ApplicationContext, member: discord.Member):
+        pfp_url = member.display_avatar.url
+        embed = discord.Embed(title=member.display_name, url=pfp_url)
         embed.set_image(url=pfp_url)
+        embed.color = discord.Color.blurple()
         await ctx.respond(embed=embed)
 
     @slash_command()
     async def wni(self, ctx: discord.ApplicationContext):
         """Make it known that you would have enjoyed whatever they're doing (without you)"""
-        complaint = random.choice(
-            [
-                "Wow, no invite?",
-                "WOW..no invite?",
-                "My invite must have gotten lost in the mail",
-                "Wow no invite?",
-                "WOW. NOT INVITED, NOT SURPRISED.",
-                "WOW. NO INVITE, NOT SURPRISED.",
-                "come on man not cool",
-                "i thought we were friends",
-                "guess ill hangout here... alone... again",
-                "hey, come on! I like darts too",
-            ]
-        )
-        await ctx.respond(embed=discord.Embed(title=complaint, color=discord.Color.blurple()))
+        embed = discord.Embed(title="Wow, no invite?", color=discord.Color.blurple())
+        embed.description = random.choice(snide_remarks)
+        await ctx.respond(embed=embed)
 
     @slash_command()
     async def coinflip(self, ctx: discord.ApplicationContext):
