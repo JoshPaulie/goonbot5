@@ -31,7 +31,8 @@ class eCelebView(discord.ui.View):
                     title=f"{self.twitch_username} could not be found.",
                     description="_Were they banned? Or a name change?_",
                     color=discord.Color.brand_red(),
-                )
+                ),
+                view=None,
             )
             return
 
