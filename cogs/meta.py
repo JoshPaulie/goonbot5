@@ -28,7 +28,16 @@ class SuggestionModal(discord.ui.Modal):
         embed = discord.Embed(title="Suggestion sent!", description=random.choice(sassy_responses))
         suggestion_title = self.children[0].value
         suggestion_details = self.children[1].value or "..."
-        await interaction.response.send_message(embed=embed)
+        print(f"{interaction.user.display_name} suggests {suggestion_title}: {suggestion_details}")  # type: ignore
+        # await interaction.response.send_message(embed=embed)
+        await interaction.response.send_message(
+            embed=discord.Embed(
+                title="Manually recorded 📝",
+                description="I have yet to set up a database, so all suggestions are written to a text file.\n \
+                    All suggestions made before the DB will be migrated",
+            ),
+            ephemeral=True,
+        )
 
 
 class Meta(commands.Cog):
@@ -47,7 +56,7 @@ class Meta(commands.Cog):
 
     @meta_group.command()
     async def uptime(self, ctx: discord.ApplicationContext):
-        """Check how long the bot has been online"""
+        """Check how long the goonbot has been online"""
         uptime = self.bot.startup.humanize()
         await ctx.respond(
             embed=discord.Embed(
@@ -62,6 +71,16 @@ class Meta(commands.Cog):
         """Make a suggest for goonbot!"""
         modal = SuggestionModal(title="Make a suggestion")
         await ctx.send_modal(modal)
+
+    @meta_group.command()
+    async def about(self, ctx: discord.ApplicationContext):
+        """About goonbot"""
+        embed = discord.Embed()
+        embed.set_thumbnail(url=self.bot.user.display_avatar.url)  # type: ignore
+        embed.title = "About Goonbot 5"
+        embed.description = "Goonbot 5 is yet another annual iteration of our favorite spyware"
+        embed.add_field(name="GitHub", value="https://github.com/JoshPaulie/goonbot5")
+        await ctx.respond(embed=embed, ephemeral=True)
 
 
 def setup(bot):
