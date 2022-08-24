@@ -1,7 +1,7 @@
 import random
 
 import discord
-from discord.commands import slash_command
+from discord.commands import SlashCommandGroup
 from discord.ext import commands
 from goonbot import GoonBot
 
@@ -9,6 +9,8 @@ from goonbot import GoonBot
 class Art(commands.Cog):
     def __init__(self, bot: GoonBot):
         self.bot = bot
+
+    art_group = SlashCommandGroup("art", "goon curated memes")
 
     @staticmethod
     async def send_art_embed(ctx: discord.ApplicationContext, image: str | list) -> None:
@@ -24,31 +26,31 @@ class Art(commands.Cog):
         art_embed.color = discord.Color.blurple()
         await ctx.respond(embed=art_embed)
 
-    @slash_command()
+    @art_group.command()
     async def bringe(self, ctx: discord.ApplicationContext):
         """Better Cringe. Duh."""
         image = "https://cdn.discordapp.com/attachments/531913512822243358/651997904751427624/Hudboy.png"
         await self.send_art_embed(ctx, image)
 
-    @slash_command()
+    @art_group.command()
     async def gamerword(self, ctx: discord.ApplicationContext):
         """Small child with heart of stone"""
         image = "https://cdn.discordapp.com/attachments/531913512822243358/651997280290734101/gamer.jpg"
         await self.send_art_embed(ctx, image)
 
-    @slash_command()
+    @art_group.command()
     async def pizza(self, ctx: discord.ApplicationContext):
         """finna get pizza pied"""
         image = "https://cdn.discordapp.com/attachments/177125557954281472/731242309446008893/image0.jpg"
         await self.send_art_embed(ctx, image)
 
-    @slash_command()
+    @art_group.command()
     async def clown(self, ctx: discord.ApplicationContext):
         """...he's the joker...baby..."""
         image = "https://cdn.discordapp.com/attachments/177125557954281472/651996397041877006/clown_2.0.jpg"
         await self.send_art_embed(ctx, image)
 
-    @slash_command()
+    @art_group.command()
     async def ygg(self, ctx: discord.ApplicationContext):
         """You good girl?"""
         image = (
@@ -57,7 +59,7 @@ class Art(commands.Cog):
         )
         await self.send_art_embed(ctx, image)
 
-    @slash_command()
+    @art_group.command()
     async def frog(self, ctx: discord.ApplicationContext):
         """Fantasy Frog Fetish"""
         image = [
@@ -68,7 +70,7 @@ class Art(commands.Cog):
         ]
         await self.send_art_embed(ctx, image)
 
-    @slash_command()
+    @art_group.command()
     async def joker(self, ctx):
         """Lex Fully Evolved"""
         image = (
@@ -77,7 +79,7 @@ class Art(commands.Cog):
         )
         await self.send_art_embed(ctx, image)
 
-    @slash_command(name="real")
+    @art_group.command()
     async def real(self, ctx: discord.ApplicationContext):
         """Evidence of paranormal cativity and other anomalies"""
         # Alt doc string: Anything made to be remotely realistic OR paranormal can be added here
@@ -92,7 +94,7 @@ class Art(commands.Cog):
         ]
         await self.send_art_embed(ctx, evidence)
 
-    @slash_command()
+    @art_group.command()
     async def rool(self, ctx: discord.ApplicationContext):
         """G8r man!"""
         image = "https://media1.tenor.com/images/c071dcb215cc774f730c1630a5971fb4/tenor.gif?itemid=12340096"
