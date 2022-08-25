@@ -1,5 +1,6 @@
-# goonbot5
+<center><a href="logo"><img src="docs\assets\karambwan_logo.png" height="75" width="75" ></a></center>
 
+# goonbot5
 **goonbot** is a swiss-army-knife bot used in my private discord server.
 
 ### Powered by
