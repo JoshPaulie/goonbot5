@@ -13,15 +13,9 @@ class Art(commands.Cog):
     art_group = SlashCommandGroup("art", "goon curated memes")
 
     @staticmethod
-    async def send_art_embed(ctx: discord.ApplicationContext, image: str | list) -> None:
+    async def send_art_embed(ctx: discord.ApplicationContext, images: list) -> None:
         art_embed = discord.Embed()
-
-        if isinstance(image, str):
-            art_embed.set_image(url=image)
-        elif isinstance(image, list):
-            image = random.choice(image)
-            art_embed.set_image(url=image)
-
+        art_embed.set_image(url=random.choice(images))
         art_embed.set_author(name=ctx.command.name)  # type: ignore
         art_embed.color = discord.Color.blurple()
         await ctx.respond(embed=art_embed)
@@ -29,34 +23,36 @@ class Art(commands.Cog):
     @art_group.command()
     async def bringe(self, ctx: discord.ApplicationContext):
         """Better Cringe. Duh."""
-        image = "https://cdn.discordapp.com/attachments/531913512822243358/651997904751427624/Hudboy.png"
+        image = ["https://cdn.discordapp.com/attachments/531913512822243358/651997904751427624/Hudboy.png"]
         await self.send_art_embed(ctx, image)
 
     @art_group.command()
     async def gamerword(self, ctx: discord.ApplicationContext):
         """Small child with heart of stone"""
-        image = "https://cdn.discordapp.com/attachments/531913512822243358/651997280290734101/gamer.jpg"
+        image = ["https://cdn.discordapp.com/attachments/531913512822243358/651997280290734101/gamer.jpg"]
         await self.send_art_embed(ctx, image)
 
     @art_group.command()
     async def pizza(self, ctx: discord.ApplicationContext):
         """finna get pizza pied"""
-        image = "https://cdn.discordapp.com/attachments/177125557954281472/731242309446008893/image0.jpg"
+        image = ["https://cdn.discordapp.com/attachments/177125557954281472/731242309446008893/image0.jpg"]
         await self.send_art_embed(ctx, image)
 
     @art_group.command()
     async def clown(self, ctx: discord.ApplicationContext):
         """...he's the joker...baby..."""
-        image = "https://cdn.discordapp.com/attachments/177125557954281472/651996397041877006/clown_2.0.jpg"
+        image = ["https://cdn.discordapp.com/attachments/177125557954281472/651996397041877006/clown_2.0.jpg"]
         await self.send_art_embed(ctx, image)
 
     @art_group.command()
     async def ygg(self, ctx: discord.ApplicationContext):
         """You good girl?"""
-        image = (
-            "https://cdn.discordapp.com/attachments/"
-            "733685825379893339/756322976034586654/c00a411b-1fea-4593-b528-56cfc2dea9cf.png"
-        )
+        image = [
+            (
+                "https://cdn.discordapp.com/attachments/"
+                "733685825379893339/756322976034586654/c00a411b-1fea-4593-b528-56cfc2dea9cf.png"
+            )
+        ]
         await self.send_art_embed(ctx, image)
 
     @art_group.command()
@@ -73,10 +69,12 @@ class Art(commands.Cog):
     @art_group.command()
     async def joker(self, ctx):
         """Lex Fully Evolved"""
-        image = (
-            "https://cdn.discordapp.com/attachments/"
-            "177125557954281472/754429776571138238/lex_true_form.jpg"
-        )
+        image = [
+            (
+                "https://cdn.discordapp.com/attachments/"
+                "177125557954281472/754429776571138238/lex_true_form.jpg"
+            )
+        ]
         await self.send_art_embed(ctx, image)
 
     @art_group.command()
