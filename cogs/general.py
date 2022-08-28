@@ -15,7 +15,7 @@ class General(commands.Cog):
 
     @slash_command()
     async def pfp(self, ctx: discord.ApplicationContext):
-        """(OLD) Profile picture grabber"""
+        """Profile picture grabber"""
         embed = discord.Embed(color=discord.Color.blurple())
         embed.title = "/pfp has moved!"
         embed.description = "Right click any user (including yourself)\nSelect Apps > Profile Picture"
