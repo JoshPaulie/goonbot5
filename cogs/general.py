@@ -3,7 +3,7 @@ import random
 from string import punctuation
 
 import discord
-from discord.commands import slash_command, user_command
+from discord.commands import message_command, slash_command, user_command
 from discord.ext import commands
 from goonbot import GoonBot
 from util.general.wni import snide_remarks
@@ -44,53 +44,24 @@ class General(commands.Cog):
         coin = random.choice(["Heads", "Tails"])
         await ctx.respond(embed=discord.Embed(title=coin, color=discord.Color.blurple()))
 
-    @slash_command()
-    @discord.option(
-        "minutes",
-        description="Enter timer duration (minutes)",
-        min_value=0,
-        max_value=120,
-        default=0,
-    )
-    @discord.option(
-        "seconds",
-        description="Enter timer duration (seconds)",
-        min_value=0,
-        max_value=120,
-        default=0,
-    )
-    async def timer(self, ctx: discord.ApplicationContext, minutes: int, seconds: int):
-        """Set a timer"""
-        await ctx.respond(
-            embed=discord.Embed(
-                title="Timer started!",
-                description=f"{ctx.author.display_name} set a timer for {minutes}m {seconds}s",  # type: ignore
-                color=discord.Color.greyple(),
-            )
-        )
-        await asyncio.sleep((minutes * 60) + seconds)
-        await ctx.edit(
-            embed=discord.Embed(
-                title=f"{ctx.author.display_name}, your timer has ended!",  # type: ignore
-                color=discord.Color.blurple(),
-            )
-        )  # type: ignore
-
     @slash_command(name="ag")
     async def ag(self, ctx: discord.ApplicationContext, phrase: str):
         """Acronym Generator"""
-        for char in phrase:
-            if char in punctuation:
-                await ctx.respond(
-                    embed=discord.Embed(title="No punctuation! 😡", color=discord.Color.blurple()),
-                    ephemeral=True,
-                )
-                return
-
         await ctx.respond(
             embed=discord.Embed(
                 title=f"{''.join([word[0].upper() for word in phrase.split()])}",
                 description=f"*{phrase}*",
+                color=discord.Color.blurple(),
+            )
+        )
+
+    @message_command(name="Generate Acronym")
+    async def ag_message_command(self, ctx: discord.ApplicationContext, message: discord.Message):
+        """Acronym Generator"""
+        await ctx.respond(
+            embed=discord.Embed(
+                title=f"{''.join([word[0].upper() for word in message.content.split()])}",
+                description=f"*{message.content}*",
                 color=discord.Color.blurple(),
             )
         )
