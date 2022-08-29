@@ -47,13 +47,7 @@ class Meta(commands.Cog):
         embed.title = "About Goonbot 5"
         embed.description = "Goonbot 5 is yet another annual iteration of our favorite spyware"
         embed.add_field(name="GitHub", value="https://github.com/JoshPaulie/goonbot5")
-        embed.add_field(
-            name="Why do some commands have new prefixes?",
-            value="Related commands have been moved into **command groups**. \
-            Functionally the same, Discord plans on reworking the command menu so groups are collapsed together.",
-            inline=False,
-        )
-        await ctx.respond(embed=embed, ephemeral=True)
+        await ctx.respond(embed=embed)
 
 
 def setup(bot):
