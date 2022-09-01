@@ -16,7 +16,13 @@ class GoonBot(discord.Bot):
 
     def __init__(self):
         super().__init__(
-            intents=discord.Intents(members=True, messages=True, guilds=True, bans=True),
+            intents=discord.Intents(
+                members=True,
+                messages=True,
+                guilds=True,
+                bans=True,
+                message_content=True,
+            ),
             owner_ids=[177131156028784640],  # Bexli
             debug_guilds=[510865274594131968, 177125557954281472],  # [Debug guild, g00n guild]
             activity=discord.Activity(type=discord.ActivityType.playing, name=random.choice(STATUSES)),
