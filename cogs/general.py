@@ -66,6 +66,12 @@ class General(commands.Cog):
             )
         )
 
+    @slash_command()
+    async def raffle(self, ctx: discord.ApplicationContext):
+        """Pick a random member from the server"""
+        winner = random.choice(ctx.guild.members)  # type: ignore
+        await ctx.respond(embed=discord.Embed(title=f"{winner.name} 🎉", color=discord.Color.blurple()))
+
     # TODO Raffle Command
 
     # TODO Voting Command
