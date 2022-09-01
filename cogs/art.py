@@ -60,6 +60,9 @@ class Art(commands.Cog):
             "https://cdn.discordapp.com/attachments/177125557954281472/937577902113972254/1643260137906.jpg",
             "https://cdn.discordapp.com/attachments/177125557954281472/936873848001929276/1643437992106.png",
             "https://cdn.discordapp.com/attachments/177125557954281472/902737733812895824/MATT.png",
+            "https://c.tenor.com/R0_afzSWuPMAAAAd/fat-guy.gif",
+            "https://c.tenor.com/Lwn2wbmAXboAAAAd/skeleton.gif",
+            "https://c.tenor.com/mrAgjI8uBI4AAAAC/skeleton-dance-skeletons.gif",
         ]
         await self.send_art_embed(ctx, evidence)
 
