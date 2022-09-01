@@ -19,6 +19,7 @@ class eCelebView(discord.ui.View):
         self.children[1].disabled = True if self.youtube_channel_id is None else False  # type: ignore
 
     @discord.ui.button(label="Twitch", style=discord.ButtonStyle.primary, emoji="🎥")
+    # Although the button paramater is unused, it is required to be passed (for whatever reason)
     async def twitch_button_callback(self, button: discord.ui.Button, interaction: discord.Interaction):
         ttv = twitch.Helix(TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET)
         eCeleb_twitch = ttv.user(self.twitch_username)  # type: ignore
