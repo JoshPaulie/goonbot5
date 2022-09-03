@@ -82,11 +82,6 @@ class General(commands.Cog):
         embed.set_footer(text=f"ID: {member.id}")
         await ctx.respond(embed=embed)
 
-    # TODO Raffle Command
-
-    # TODO Voting Command
-    # Modals?
-
 
 def setup(bot):
     bot.add_cog(General(bot))
