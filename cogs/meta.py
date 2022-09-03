@@ -43,10 +43,20 @@ class Meta(commands.Cog):
     async def about(self, ctx: discord.ApplicationContext):
         """About goonbot"""
         embed = discord.Embed()
+        embed.color = discord.Color.blurple()
         embed.set_thumbnail(url=self.bot.user.display_avatar.url)  # type: ignore
         embed.title = "About Goonbot 5"
         embed.description = "Goonbot 5 is yet another annual iteration of our favorite spyware"
-        embed.add_field(name="GitHub", value="https://github.com/JoshPaulie/goonbot5")
+        embed.add_field(
+            name="GitHub",
+            value="https://github.com/JoshPaulie/goonbot5",
+            inline=False,
+        )
+        embed.add_field(
+            name="Total Commands",
+            value=str(len(self.bot.commands)),
+            inline=False,
+        )
         await ctx.respond(embed=embed)
 
 
