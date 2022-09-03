@@ -15,14 +15,6 @@ class General(commands.Cog):
     def __init__(self, bot: GoonBot):
         self.bot = bot
 
-    @slash_command()
-    async def pfp(self, ctx: discord.ApplicationContext):
-        """Profile picture grabber"""
-        embed = discord.Embed(color=discord.Color.blurple())
-        embed.title = "/pfp has moved!"
-        embed.description = "Right click any user (including yourself)\nSelect Apps > Profile Picture"
-        await ctx.respond(embed=embed, ephemeral=True)
-
     @user_command(name="Profile Picture")
     async def pfp_user_command(self, ctx: discord.ApplicationContext, member: discord.Member):
         pfp_url = member.display_avatar.url
@@ -71,6 +63,24 @@ class General(commands.Cog):
         """Pick a random member from the server"""
         winner = random.choice(ctx.guild.members)  # type: ignore
         await ctx.respond(embed=discord.Embed(title=f"{winner.name} 🎉", color=discord.Color.blurple()))
+
+    @user_command(name="About")
+    async def about_user(self, ctx: discord.ApplicationContext, member: discord.Member):
+        """about"""
+        embed = discord.Embed(title=member.display_name, color=member.color)
+        embed.add_field(
+            name=f"Joined {ctx.guild.name}",  # type: ignore
+            value=member.joined_at.strftime("%b %d %Y"),  # type: ignore
+            inline=False,
+        )
+        embed.add_field(
+            name=f"Joined Discord",  # type: ignore
+            value=member.created_at.strftime("%b %d %Y"),  # type: ignore
+            inline=False,
+        )
+        embed.set_thumbnail(url=member.display_avatar.url)
+        embed.set_footer(text=f"ID: {member.id}")
+        await ctx.respond(embed=embed)
 
     # TODO Raffle Command
 
