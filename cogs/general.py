@@ -24,6 +24,14 @@ class General(commands.Cog):
         await ctx.respond(embed=embed)
 
     @slash_command()
+    async def usercommand(self, ctx: discord.ApplicationContext):
+        """Gif of how User Commands are used"""
+        embed = discord.Embed(title="How to use a User Command")
+        embed.set_image(url="https://i.imgur.com/Ak1nsjk.gif")
+        embed.color = discord.Color.blurple()
+        await ctx.respond(embed=embed)
+
+    @slash_command()
     async def wni(self, ctx: discord.ApplicationContext):
         """Make it known that you would have enjoyed whatever they're doing (without you)"""
         embed = discord.Embed(title="Wow, no invite?", color=discord.Color.blurple())
