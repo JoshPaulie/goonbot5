@@ -67,9 +67,9 @@ class Meta(commands.Cog):
 
         embed = discord.Embed(title=random.choice(sassy_responses), color=discord.Color.blurple())
         embed.add_field(name=f"Suggestion", value=suggestion)  # type: ignore
-        embed.set_footer(text=f"Author: {ctx.author.display_name}") # type: ignore
+        embed.set_footer(text=f"Author: {ctx.author.display_name}")  # type: ignore
         await ctx.respond(embed=embed)
-        await self.bot.db["suggestions"].insert_one(  # type: ignore
+        await self.bot.suggestions.insert_one(  # type: ignore
             dict(
                 author=ctx.author.name,  # type: ignore
                 suggestion=suggestion,
