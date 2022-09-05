@@ -1,10 +1,9 @@
 import random
 
 import discord
-from discord.commands import SlashCommandGroup
+from discord.commands import SlashCommandGroup, slash_command
 from discord.ext import commands
 from goonbot import GoonBot
-from util.meta.modals import SuggestionModal
 
 
 class Meta(commands.Cog):
@@ -34,12 +33,6 @@ class Meta(commands.Cog):
         )
 
     @meta_group.command()
-    async def suggestion(self, ctx: discord.ApplicationContext):
-        """Make a suggest for goonbot!"""
-        modal = SuggestionModal(title="Make a suggestion")
-        await ctx.send_modal(modal)
-
-    @meta_group.command()
     async def about(self, ctx: discord.ApplicationContext):
         """About goonbot"""
         embed = discord.Embed()
@@ -58,6 +51,31 @@ class Meta(commands.Cog):
             inline=False,
         )
         await ctx.respond(embed=embed)
+
+    @slash_command()
+    async def suggest(
+        self,
+        ctx: discord.ApplicationContext,
+        suggestion: discord.Option(str, "What feature should be implemented to goonbot?"),  # type: ignore
+    ):
+        """Make a suggestion for goonbot!"""
+        sassy_responses = [
+            "Wow! this will definitely be implemented",
+            "Oh, nice idea bu-ddy!",
+            "I'll think about that! 😉",
+        ]
+
+        embed = discord.Embed(title=random.choice(sassy_responses), color=discord.Color.blurple())
+        embed.add_field(name=f"Suggestion", value=suggestion)  # type: ignore
+        embed.set_footer(text=f"Author: {ctx.author.display_name}") # type: ignore
+        await ctx.respond(embed=embed)
+        await self.bot.db["suggestions"].insert_one(  # type: ignore
+            dict(
+                author=ctx.author.name,  # type: ignore
+                suggestion=suggestion,
+                open=True,
+            )
+        )
 
 
 def setup(bot):
