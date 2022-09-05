@@ -39,7 +39,6 @@ class GoonBot(discord.Bot):
     async def on_ready(self):
         """Overwrites default on_ready"""
         self.console.log(f"{self.user.name} has logged in 👍")  # type: ignore
-        # await self.db["suggestions"].insert_one({"Please": "Work"})  # type: ignore
 
     async def on_application_command(self, ctx: discord.ApplicationContext):
         """Overwrites default on_application_command, acting as a console log for who used what commands, when."""
