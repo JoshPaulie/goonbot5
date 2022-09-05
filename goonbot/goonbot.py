@@ -5,6 +5,7 @@ import discord
 from rich.console import Console
 
 from .cog_management import collect_cogs, load_cogs
+from .mongo_db import db
 
 STATUSES = ["dead", "chess", "wild rift", "toontown", "you"]
 
@@ -33,10 +34,12 @@ class GoonBot(discord.Bot):
 
         self.startup = arrow.now()
         self.console = Console()
+        self.db = db
 
     async def on_ready(self):
         """Overwrites default on_ready"""
         self.console.log(f"{self.user.name} has logged in 👍")  # type: ignore
+        # await self.db["suggestions"].insert_one({"Please": "Work"})  # type: ignore
 
     async def on_application_command(self, ctx: discord.ApplicationContext):
         """Overwrites default on_application_command, acting as a console log for who used what commands, when."""
