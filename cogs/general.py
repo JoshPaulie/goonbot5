@@ -1,6 +1,4 @@
-import asyncio
 import random
-from string import punctuation
 
 import discord
 from discord.commands import message_command, slash_command, user_command
