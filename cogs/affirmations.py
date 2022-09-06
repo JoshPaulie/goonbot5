@@ -10,15 +10,7 @@ class Affirmations(commands.Cog):
     def __init__(self, bot: GoonBot):
         self.bot = bot
 
-    @slash_command()
-    async def ily(self, ctx: discord.ApplicationContext):
-        """Tell someone you loved them! Or can you?"""
-        embed = discord.Embed(color=discord.Color.blurple())
-        embed.title = "/ily has moved!"
-        embed.description = "Right click any user (including yourself)\nSelect Apps > I love you!"
-        await ctx.respond(embed=embed, ephemeral=True)
-
-    @user_command(name="I love you!")
+    @user_command(name="💕 I love you!")
     async def ily_user_command(self, ctx: discord.ApplicationContext, member: discord.Member):
         """Tell someone you love them!"""
         emotes = random.choice(["😍", "😘", "🥰", "🤩", "🤗", "❤", "💕", "💞", "🖤"])

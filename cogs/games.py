@@ -36,18 +36,18 @@ class Games(commands.Cog, name="Games"):
         await self.bot.tokens.update_one(user_tokens, {"$inc": {"coins": change_amount}})
         return user_tokens.get(token)
 
-    @user_command(name="Check Coins")
+    @user_command(name="💰 Check Coins")
     async def check_coins_user_command(self, ctx: discord.ApplicationContext, member: discord.Member):
         """Check to see how many coin tokens a user has"""
         coin_amount = await self.get_token_amount(COINS, member)
         await ctx.respond(
             embed=discord.Embed(
-                title=f"{member.display_name} has {coin_amount} {'coin' if coin_amount == 1 else 'coins'}",
+                title=f"💰 {member.display_name} has {coin_amount} {'coin' if coin_amount == 1 else 'coins'}",
                 color=discord.Color.blurple(),
             )
         )
 
-    @user_command(name="Mug coins 👊")
+    @user_command(name="👊 Mug")
     async def mug(self, ctx: discord.ApplicationContext, member: discord.Member):
         """Check to see how many coin tokens a user has"""
         """
@@ -64,7 +64,7 @@ class Games(commands.Cog, name="Games"):
                     color=discord.Color.blurple(),
                 ),
             )
-            return
+            # return uncomment this to turn guard back on
 
         await self.change_token_amount(COINS, member, 0)
         coin_amount = await self.get_token_amount(COINS, member)
@@ -75,13 +75,14 @@ class Games(commands.Cog, name="Games"):
                     color=discord.Color.blurple(),
                 ),
             )
-            return
+            # return uncomment this to turn guard back on
 
         await ctx.respond(
             embed=discord.Embed(
-                title=f"{member.display_name} has {coin_amount} {'coin' if coin_amount == 1 else 'coins'}",
+                title=f"This isn't actually implemented yet. VSOON :))",
                 color=discord.Color.blurple(),
-            )
+            ),
+            ephemeral=True,
         )
 
 

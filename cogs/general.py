@@ -13,7 +13,7 @@ class General(commands.Cog):
     def __init__(self, bot: GoonBot):
         self.bot = bot
 
-    @user_command(name="Profile Picture")
+    @user_command(name="📸 pfp")
     async def pfp_user_command(self, ctx: discord.ApplicationContext, member: discord.Member):
         pfp_url = member.display_avatar.url
         embed = discord.Embed(title=member.display_name, url=pfp_url)
@@ -78,27 +78,27 @@ class General(commands.Cog):
                 title=f"Someone is Live!", url="https://holodex.net/", color=discord.Color.brand_green()
             )
         )
-        if ctx.author.id == 104488848309895168: # type: ignore
+        if ctx.author.id == 104488848309895168:  # type: ignore
             emote = ["🖕", "😎", "🤫"]
             await ctx.send(f"gotcha, nerd {random.choice(emote)}", delete_after=1)
 
-    # @user_command(name="About")
-    # async def about_user(self, ctx: discord.ApplicationContext, member: discord.Member):
-    #     """about"""
-    #     embed = discord.Embed(title=member.display_name, color=member.color)
-    #     embed.add_field(
-    #         name=f"Joined {ctx.guild.name}",  # type: ignore
-    #         value=member.joined_at.strftime("%b %d %Y"),  # type: ignore
-    #         inline=False,
-    #     )
-    #     embed.add_field(
-    #         name=f"Joined Discord",  # type: ignore
-    #         value=member.created_at.strftime("%b %d %Y"),  # type: ignore
-    #         inline=False,
-    #     )
-    #     embed.set_thumbnail(url=member.display_avatar.url)
-    #     embed.set_footer(text=f"ID: {member.id}")
-    #     await ctx.respond(embed=embed)
+    @user_command(name="🔎 Account Info")
+    async def about_user(self, ctx: discord.ApplicationContext, member: discord.Member):
+        """about"""
+        embed = discord.Embed(title=member.display_name, color=member.color)
+        embed.add_field(
+            name=f"Joined {ctx.guild.name}",  # type: ignore
+            value=member.joined_at.strftime("%b %d %Y"),  # type: ignore
+            inline=False,
+        )
+        embed.add_field(
+            name=f"Joined Discord",  # type: ignore
+            value=member.created_at.strftime("%b %d %Y"),  # type: ignore
+            inline=False,
+        )
+        embed.set_thumbnail(url=member.display_avatar.url)
+        embed.set_footer(text=f"ID: {member.id}")
+        await ctx.respond(embed=embed)
 
 
 def setup(bot):
