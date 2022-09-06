@@ -38,6 +38,7 @@ class eCelebView(discord.ui.View):
             return
 
         if eCeleb_twitch.is_live:
+            twitch_embed.url = f"https://www.twitch.tv/{self.twitch_username}"
             twitch_embed.title = f"{self.twitch_username} is live!"
             twitch_embed.description = eCeleb_twitch.stream.title
             twitch_embed.set_footer(text=f"Began {arrow.get(eCeleb_twitch.stream.started_at).humanize()}")
