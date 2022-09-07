@@ -47,43 +47,73 @@ class Games(commands.Cog, name="Games"):
             )
         )
 
+    @commands.is_owner()
     @user_command(name="👊 Mug")
     async def mug(self, ctx: discord.ApplicationContext, member: discord.Member):
         """Check to see how many coin tokens a user has"""
-        """
-        TODO
-        [x] Make add token amount method
-        [x] Cannot mug yourself
-        [x] Check if victim has <0
-        [] Actual game
-        """
-        if ctx.author == member:
+        attacker = ctx.author
+        victim = member
+
+        if attacker == victim:
             await ctx.respond(
                 embed=discord.Embed(
-                    title=f"In a failed attempt to mug themselves, {ctx.author.display_name} lost.",  # type: ignore
+                    title=f"In a failed attempt to mug themselves, {attacker.display_name} lost.",  # type: ignore
                     color=discord.Color.blurple(),
                 ),
             )
-            # return uncomment this to turn guard back on
+            return
 
-        await self.change_token_amount(COINS, member, 0)
-        coin_amount = await self.get_token_amount(COINS, member)
-        if coin_amount < 1:
+        await self.change_token_amount(COINS, victim, 0)  # Makes sure "Coins are available in document"
+        victim_coin_amount = await self.get_token_amount(COINS, victim)
+        if victim_coin_amount < 1:
             await ctx.respond(
                 embed=discord.Embed(
-                    title=f"{member.display_name}'s wallet is empty",  # type: ignore
+                    title=f"{victim.display_name}'s wallet is empty",  # type: ignore
                     color=discord.Color.blurple(),
                 ),
             )
-            # return uncomment this to turn guard back on
+            return
 
-        await ctx.respond(
-            embed=discord.Embed(
-                title=f"This isn't actually implemented yet. VSOON :))",
-                color=discord.Color.blurple(),
-            ),
-            ephemeral=True,
-        )
+        mugging_outcome = random.randint(1, 3)
+        match mugging_outcome:
+            case 1:
+                # Mugging was successful
+                await self.change_token_amount(COINS, victim, -1)
+                await self.change_token_amount(COINS, attacker, 1)  # type: ignore
+                await ctx.respond(
+                    embed=discord.Embed(
+                        title=f"{attacker.display_name} stole 1 coin from {victim.display_name}",  # type: ignore
+                        color=discord.Color.brand_green(),
+                    ),
+                )
+            case 2:
+                # Mugging was unsuccessful
+                await ctx.respond(
+                    embed=discord.Embed(
+                        title=f"{attacker.display_name} attempted to mug {victim.display_name}, but the got away.",  # type: ignore
+                        color=discord.Color.greyple(),
+                    ),
+                )
+            case 3:
+                # Mugging was VERY unsuccessful
+                # TODO make it so attacker with 0 coins can't go negative
+                await self.change_token_amount(COINS, victim, 1)
+                await self.change_token_amount(COINS, attacker, -1)  # type: ignore
+                await ctx.respond(
+                    embed=discord.Embed(
+                        title=f"{victim.display_name} fought back, {attacker.display_name} lost a coin.",  # type: ignore
+                        color=discord.Color.dark_red(),
+                    ),
+                )
+
+    @mug.error
+    async def on_application_command_error(
+        self, ctx: discord.ApplicationContext, error: discord.DiscordException
+    ):
+        if isinstance(error, commands.NotOwner):
+            await ctx.respond("Sorry, this is still under development! 🤓", ephemeral=True)
+        else:
+            raise error  # Here we raise other errors to ensure they aren't ignored
 
 
 def setup(bot):
