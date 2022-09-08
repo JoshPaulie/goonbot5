@@ -11,7 +11,7 @@ COINS = "coins"
 MILES = "miles"
 
 
-class Games(commands.Cog, name="Games"):
+class MuggingGame(commands.Cog, name="Games"):
     def __init__(self, bot: GoonBot):
         self.bot = bot
 
@@ -117,4 +117,4 @@ class Games(commands.Cog, name="Games"):
 
 
 def setup(bot):
-    bot.add_cog(Games(bot))
+    bot.add_cog(MuggingGame(bot))
