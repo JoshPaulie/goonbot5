@@ -2,6 +2,7 @@ import random
 
 import arrow
 import discord
+from pymongo.errors import DuplicateKeyError
 from rich.console import Console
 
 from .cog_management import collect_cogs, load_cogs
@@ -55,3 +56,24 @@ class GoonBot(discord.Bot):
     @property
     def tokens(self):
         return self.db["tokens"]
+
+    async def get_tokens(self, user: discord.Member | discord.User):
+        """Disgustingly hacky way to check how many of a specific token a user has.
+        If user doesn't have any tokens, create a new document and give them 0 of token checked"""
+        try:
+            await self.tokens.insert_one({"_id": user.id})
+        except DuplicateKeyError:
+            pass
+
+        user_tokens = await self.tokens.find_one({"_id": user.id})
+        return user_tokens
+
+    async def get_token_amount(self, token: str, user: discord.Member | discord.User):
+        """Check to see how many of a specific token a user has"""
+        user_tokens = await self.get_tokens(user)
+        return user_tokens.get(token)
+
+    async def change_token_amount(self, token: str, user: discord.Member | discord.User, change_amount: int):
+        user_tokens = await self.get_tokens(user)
+        await self.tokens.update_one(user_tokens, {"$inc": {"coins": change_amount}})
+        return user_tokens.get(token)
