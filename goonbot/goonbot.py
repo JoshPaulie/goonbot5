@@ -58,8 +58,8 @@ class GoonBot(discord.Bot):
         return self.db["tokens"]
 
     async def get_tokens(self, user: discord.Member | discord.User):
-        """Disgustingly hacky way to check how many of a specific token a user has.
-        If user doesn't have any tokens, create a new document and give them 0 of token checked"""
+        """Returns a user's 'tokens' document"""
+        # Disgustingly hacky way to make sure user has a token document.
         try:
             await self.tokens.insert_one({"_id": user.id})
         except DuplicateKeyError:
