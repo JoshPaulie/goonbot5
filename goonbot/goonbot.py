@@ -61,7 +61,7 @@ class GoonBot(discord.Bot):
         """Returns a user's 'tokens' document"""
         # Disgustingly hacky way to make sure user has a token document.
         try:
-            await self.tokens.insert_one({"_id": user.id})
+            await self.tokens.insert_one({"_id": user.id, "coins": 10})
         except DuplicateKeyError:
             pass
 
