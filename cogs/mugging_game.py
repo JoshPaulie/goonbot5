@@ -5,9 +5,7 @@ from discord.commands import user_command
 from discord.ext import commands
 from goonbot import GoonBot
 
-# Current Tokens
 COINS = "coins"
-MILES = "miles"
 
 
 class MuggingGame(commands.Cog, name="Games"):
@@ -26,8 +24,8 @@ class MuggingGame(commands.Cog, name="Games"):
             )
         )
 
-    @commands.is_owner()
     @user_command(name="👊 Mug")
+    @commands.cooldown(1, 60, type=commands.BucketType.user)
     async def mug(self, ctx: discord.ApplicationContext, member: discord.Member):
         """Mug someone for a chance to steal their coins!"""
         attacker = ctx.author
