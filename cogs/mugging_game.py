@@ -33,10 +33,6 @@ class MuggingGame(commands.Cog, name="Games"):
         attacker = ctx.author
         victim = member
 
-        # Adds 'Coins' token to document if not already
-        await self.bot.change_token_amount(COINS, attacker, 0)  # type: ignore
-        await self.bot.change_token_amount(COINS, victim, 0)
-
         attacker_coin_amount = await self.bot.get_token_amount(COINS, attacker)  # type: ignore
         victim_coin_amount = await self.bot.get_token_amount(COINS, victim)
 
@@ -112,6 +108,14 @@ class MuggingGame(commands.Cog, name="Games"):
     ):
         if isinstance(error, commands.NotOwner):
             await ctx.respond("Sorry, this is still under development! 🤓", ephemeral=True)
+        elif isinstance(error, commands.CommandOnCooldown):
+            await ctx.respond(
+                discord.Embed(
+                    title="You're on cooldown! 🥶",
+                    description=f"{ctx.command.get_cooldown_retry_after}s remaining",
+                ),
+                ephemeral=True,
+            )
         else:
             raise error  # Here we raise other errors to ensure they aren't ignored
 
