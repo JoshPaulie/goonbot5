@@ -104,13 +104,12 @@ class MuggingGame(commands.Cog, name="Games"):
     async def on_application_command_error(
         self, ctx: discord.ApplicationContext, error: discord.DiscordException
     ):
-        if isinstance(error, commands.NotOwner):
-            await ctx.respond("Sorry, this is still under development! 🤓", ephemeral=True)
-        elif isinstance(error, commands.CommandOnCooldown):
+        if isinstance(error, commands.CommandOnCooldown):
             await ctx.respond(
-                discord.Embed(
+                embed=discord.Embed(
                     title="You're on cooldown! 🥶",
-                    description=f"{ctx.command.get_cooldown_retry_after}s remaining",
+                    description="You must wait 1m between muggings"
+                    # description=f"{ctx.command.get_cooldown_retry_after}s remaining",
                 ),
                 ephemeral=True,
             )
