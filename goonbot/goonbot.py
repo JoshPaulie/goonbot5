@@ -8,8 +8,6 @@ from rich.console import Console
 from .cog_management import collect_cogs, load_cogs
 from .mongo_db import db
 
-STATUSES = ["dead", "chess", "wild rift", "toontown", "you"]
-
 
 class GoonBot(discord.Bot):
     """
@@ -27,7 +25,6 @@ class GoonBot(discord.Bot):
             ),
             owner_ids=[177131156028784640],  # Bexli
             debug_guilds=[510865274594131968, 177125557954281472],  # [Debug guild, g00n guild]
-            activity=discord.Activity(type=discord.ActivityType.playing, name=random.choice(STATUSES)),
         )
 
         collect_cogs()
