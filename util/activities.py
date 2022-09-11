@@ -2,6 +2,8 @@ import random
 
 from discord import Activity, ActivityType
 
+from util.generic_helpers import cycle_random
+
 SONGS = [
     "Owl City",
     "Enemy (J.I.D. Verse Only)",
@@ -31,4 +33,4 @@ playing_activities = [Activity(type=ActivityType.playing, name=game) for game in
 listening_activities = [Activity(type=ActivityType.listening, name=sound) for sound in SONGS]
 watching_activities = [Activity(type=ActivityType.watching, name=clip) for clip in CLIPS]
 
-goonbot_activities = [*playing_activities, *listening_activities, *watching_activities]
+goonbot_activities = cycle_random([*playing_activities, *listening_activities, *watching_activities])
