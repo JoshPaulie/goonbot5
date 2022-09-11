@@ -28,7 +28,7 @@ CLIPS = [
 ]
 
 playing_activities = [Activity(type=ActivityType.playing, name=game) for game in GAMES]
-listening_activities = [Activity(type=ActivityType.playing, name=sound) for sound in SONGS]
-watching_activities = [Activity(type=ActivityType.playing, name=clip) for clip in CLIPS]
+listening_activities = [Activity(type=ActivityType.listening, name=sound) for sound in SONGS]
+watching_activities = [Activity(type=ActivityType.watching, name=clip) for clip in CLIPS]
 
 goonbot_activities = [*playing_activities, *listening_activities, *watching_activities]
