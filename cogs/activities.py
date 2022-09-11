@@ -1,47 +1,16 @@
 import random
 
-import discord
 from discord.ext import commands, tasks
 from goonbot import GoonBot
-
-LISTENING = [
-    "Owl City",
-    "Enemy (J.I.D. Verse Only)",
-    "your thoughts",
-    "Dunkin Darius (10H Loop)",
-]
-
-PLAYING = [
-    "dead",
-    "chess",
-    "wild rift",
-    "toontown",
-    "you",
-    "adventure quest",
-    "tribal wars",
-    "Spore",
-    "Endless Online",
-]
-
-WATCHING = [
-    "Arcane: Season 2",
-    "Camp Rock!",
-    f"Harry Potter Book 7 Part {random.randint(1, 100)}",
-    "'Justin W' Videos",
-    "'Chunk Crunkland' Videos",
-]
-
-goonbot_activities = [
-    discord.Activity(type=discord.ActivityType.playing, name=random.choice(PLAYING)),
-    discord.Activity(type=discord.ActivityType.listening, name=random.choice(LISTENING)),
-    discord.Activity(type=discord.ActivityType.watching, name=random.choice(WATCHING)),
-]
+from util.activities import goonbot_activities
 
 
 class Activities(commands.Cog, name="Activities"):
     def __init__(self, bot: GoonBot):
         self.bot = bot
         self.set_activity.start()
+
+        # Set an initial activity, incase the set_activity() rolls to not change the activity
         self.bot.activity = random.choice(goonbot_activities)
 
     def cog_unload(self):
@@ -49,6 +18,7 @@ class Activities(commands.Cog, name="Activities"):
 
     @tasks.loop(minutes=15)
     async def set_activity(self):
+        """33% chance of changing activity every 15 minutes"""
         if random.randint(1, 3) == 1:
             await self.bot.change_presence(activity=random.choice(goonbot_activities))
 
