@@ -51,6 +51,10 @@ class eCelebs(commands.Cog):
     async def fascinating_horror(self, ctx: discord.ApplicationContext):
         await ctx.respond(view=eCelebView(youtube_channel_id="UCFXad0mx4WxY1fXdbvtg0CQ"))
 
+    @slash_command()
+    async def settledrs(self, ctx: discord.ApplicationContext):
+        await ctx.respond(view=eCelebView(youtube_channel_id="UCs-w7E2HZWwXmjt9RTvBB_A"))
+
 
 def setup(bot):
     bot.add_cog(eCelebs(bot))
