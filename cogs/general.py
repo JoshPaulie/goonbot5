@@ -1,9 +1,11 @@
+import datetime
 import random
 
 import discord
 from discord.commands import message_command, slash_command, user_command
 from discord.ext import commands
 from goonbot import GoonBot
+from util.general.wie import time_of_day
 from util.general.wni import snide_remarks
 
 
@@ -34,6 +36,14 @@ class General(commands.Cog):
         """Make it known that you would have enjoyed whatever they're doing (without you)"""
         embed = discord.Embed(title="Wow, no invite?", color=discord.Color.blurple())
         embed.description = random.choice(snide_remarks)
+        await ctx.respond(embed=embed)
+
+    @slash_command()
+    async def wie(self, ctx: discord.ApplicationContext):
+        """Make it known that you are in VC and would love to create some memories (with you)"""
+        today = datetime.datetime.today()
+        embed = discord.Embed(title="Where is everyone?", color=discord.Color.blurple())
+        embed.description = f"It's a {today.strftime('%A')} {time_of_day(today.strftime('%H'))}!"
         await ctx.respond(embed=embed)
 
     @slash_command()
