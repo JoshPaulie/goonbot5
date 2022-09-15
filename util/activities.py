@@ -8,25 +8,33 @@ SONGS = [
     "Owl City",
     "Enemy (J.I.D. Verse Only)",
     "your thoughts",
-    "Dunkin Darius (10H Loop)",
+    "NPR's Tiny Desk",
 ]
 
 GAMES = [
-    "dead",
-    "chess",
-    "wild rift",
-    "toontown",
-    "you",
-    "adventure quest",
-    "tribal wars",
+    "dead 💀",
+    "Chess ♟",
+    "Wild Rift",
+    "Toontown",
+    f"you{random.choice([' 😏', ''])}",
+    "Adventure Quest",
+    "Tribal Wars",
     "Spore",
     "Endless Online",
+    "Mech Warriors",
+    "RuneLite",
+    "Dolphin Emulator",
+    "Club Penguin",
+    "TFT",
+    "ARAM",
 ]
 
 CLIPS = [
     "Arcane: Season 2",
+    "Spy Kids 3-D: Game Over",
     "Camp Rock!",
-    f"Harry Potter Book 7 Part {random.randint(1, 100)}",
+    "Twilight: Charlie's Revenge",
+    f"Harry Potter Book 7 Part {random.randint(3, 20)}",
 ]
 
 playing_activities = [Activity(type=ActivityType.playing, name=game) for game in GAMES]
