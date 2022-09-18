@@ -66,6 +66,16 @@ class Art(commands.Cog):
         ]
         await self.send_art_embed(ctx, evidence)
 
+    @slash_command(name="peepotalk")
+    async def peepo_talk(self, ctx: discord.ApplicationContext):
+        """An NPC is chatting away!"""
+        await self.send_art_embed(
+            ctx,
+            [
+                "https://cdn.discordapp.com/attachments/787711120026501152/1021097375588159658/peepo-talk-peepo_transparent.gif"
+            ],
+        )
+
 
 def setup(bot):
     bot.add_cog(Art(bot))
