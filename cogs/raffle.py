@@ -16,7 +16,9 @@ class RaffleView(discord.ui.View):
         if interaction.user not in self.contestants:
             self.contestants.append(interaction.user)
             current_contestants = [c.display_name for c in self.contestants]  # type: ignore
-            await interaction.message.edit(content=f"Current contestants: {', '.join(current_contestants)}")  # type: ignore
+            await interaction.edit_original_message(
+                content=f"Current contestants: {', '.join(current_contestants)}"
+            )
         await interaction.response.defer()
 
     @discord.ui.button(label="Pick a winner!")
@@ -29,7 +31,7 @@ class RaffleView(discord.ui.View):
             return
 
         if not self.contestants:
-            await interaction.message.edit(  # type: ignore
+            await interaction.edit_original_message(
                 embed=discord.Embed(
                     title="No one entered the raffle :^)",
                     color=discord.Color.greyple(),
@@ -39,7 +41,7 @@ class RaffleView(discord.ui.View):
             return
 
         winner = random.choice(self.contestants)
-        await interaction.message.edit(  # type: ignore
+        await interaction.edit_original_message(
             embed=discord.Embed(
                 title=winner.display_name,  # type: ignore
                 description="is the winner! 🎉",
