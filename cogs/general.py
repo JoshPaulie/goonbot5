@@ -75,12 +75,6 @@ class General(commands.Cog):
         )
 
     @slash_command()
-    async def raffle(self, ctx: discord.ApplicationContext):
-        """Pick a random member from the server"""
-        winner = random.choice(ctx.guild.members)  # type: ignore
-        await ctx.respond(embed=discord.Embed(title=f"{winner.name} 🎉", color=discord.Color.blurple()))
-
-    @slash_command()
     async def vtuber(self, ctx: discord.ApplicationContext):
         """Check to see if one of many vtubers are live!"""
         await ctx.respond(
