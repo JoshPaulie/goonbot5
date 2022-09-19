@@ -22,13 +22,12 @@ class MakeTeams(commands.Cog, name="Make Teams"):
         team_2 = currently_in[len(currently_in) // 2 :]
 
         teams_embed = discord.Embed(color=discord.Color.blurple())
+        teams_embed.title = "Teams Generated!"
         teams_embed.add_field(name="Team 1", value="\n".join(team_1), inline=True)
         teams_embed.add_field(name="Team 2", value="\n".join(team_2), inline=True)
         if len(currently_in) % 2 != 0:
-            teams_embed.set_footer(
-                text="Because there was an uneven number of players, Team 2 will have one extra player"
-            )
-        await ctx.respond(embed=teams_embed)  # type: ignore
+            teams_embed.description = "_Uneven number of participants_"
+        await ctx.respond(embed=teams_embed)
 
 
 def setup(bot):
