@@ -4,6 +4,7 @@ import discord
 from discord.commands import SlashCommandGroup, slash_command
 from discord.ext import commands
 from goonbot import GoonBot
+from util.meta.modals import AnnouncementModal
 
 
 class Meta(commands.Cog):
@@ -66,16 +67,23 @@ class Meta(commands.Cog):
         ]
 
         embed = discord.Embed(title=random.choice(sassy_responses), color=discord.Color.blurple())
-        embed.add_field(name=f"Suggestion", value=suggestion)  # type: ignore
+        embed.add_field(name=f"Suggestion", value=suggestion)
         embed.set_footer(text=f"Author: {ctx.author.display_name}")  # type: ignore
         await ctx.respond(embed=embed)
-        await self.bot.suggestions.insert_one(  # type: ignore
+        await self.bot.suggestions.insert_one(
             dict(
                 author=ctx.author.name,  # type: ignore
                 suggestion=suggestion,
                 open=True,
             )
         )
+
+    @slash_command()
+    @commands.is_owner()
+    async def announce(self, ctx: discord.ApplicationContext):
+        """Used for Jarsh to announce changed to goonbot"""
+        modal = AnnouncementModal(title="🤓")
+        await ctx.send_modal(modal)
 
 
 def setup(bot):
