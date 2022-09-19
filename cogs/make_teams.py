@@ -23,8 +23,8 @@ class MakeTeams(commands.Cog, name="Make Teams"):
 
         teams_embed = discord.Embed(color=discord.Color.blurple())
         teams_embed.title = "Teams Generated!"
-        teams_embed.add_field(name="Team 1", value="\n".join(team_1), inline=True)
-        teams_embed.add_field(name="Team 2", value="\n".join(team_2), inline=True)
+        teams_embed.add_field(name="Team 1", value="\n".join(team_1) or "...", inline=True)
+        teams_embed.add_field(name="Team 2", value="\n".join(team_2) or "...", inline=True)
         if len(currently_in) % 2 != 0:
             teams_embed.description = "_Uneven number of participants_"
         await ctx.respond(embed=teams_embed)
