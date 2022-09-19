@@ -31,24 +31,24 @@ class MuggingGame(commands.Cog, name="Games"):
         attacker = ctx.author
         victim = member
 
-        # Get how many coins are in each wallet
-        attacker_coin_amount = await self.bot.get_token_amount(COINS, attacker)  # type: ignore
-        victim_coin_amount = await self.bot.get_token_amount(COINS, victim)
+        # Embed that's to be built on during encounter
+        mugging_embed = discord.Embed(color=discord.Color.blurple())
+
+        # Get how many coins are in each wallet before encounter
+        # The end amount will be manipulated throughout the encounter, eliminating the need for another server call later
+        attacker_coin_amount_start = attacker_coin_amount_end = await self.bot.get_token_amount(COINS, attacker)  # type: ignore
+        victim_coin_amount_start = victim_coin_amount_end = await self.bot.get_token_amount(COINS, victim)
 
         # Pick the amount lost if respective party were to lose an encounter
         # It is possible to lose upto 1/4 of one's current wallet in an encounter
-        # If the user has <4 coins, the most that can be taken is 1
-        attacker_mugging_amount = random.randint(1, attacker_coin_amount // 4 or 1)
-        victim_mugging_amount = random.randint(1, attacker_coin_amount // 4 or 1)
+        # If the user has <8 coins, only 1 coin can be taken at a time.
+        attacker_mugging_amount = random.randint(1, attacker_coin_amount_start // 4 or 1)
+        victim_mugging_amount = random.randint(1, victim_coin_amount_start // 4 or 1)
 
         # "You can't mug yourself" guard
         if attacker == victim:
-            await ctx.respond(
-                embed=discord.Embed(
-                    title=f"In a failed attempt to mug themselves, {attacker.name} lost.",  # type: ignore
-                    color=discord.Color.blurple(),
-                ),
-            )
+            mugging_embed.title = f"In a failed attempt to mug themselves, {attacker.name} lost."  # type: ignore
+            await ctx.respond(embed=mugging_embed)
             return
 
         """
@@ -60,57 +60,38 @@ class MuggingGame(commands.Cog, name="Games"):
         """
         mugging_outcome = random.randint(1, 3)
         match mugging_outcome:
-            case 1:
-                # Mugging was successful
-                if victim_coin_amount <= 0:
-                    await ctx.respond(
-                        embed=discord.Embed(
-                            title=f"{attacker.name} mugged {victim.name}!",  # type: ignore
-                            description=f"But their wallet was empty!",  # type: ignore
-                            color=discord.Color.brand_green(),
-                        ),
-                    )
-                    return
+            case 1:  # Mugging was successful
+                mugging_embed.color = discord.Color.brand_green()
+                mugging_embed.title = f"{attacker.name} mugged {victim.name}!"  # type: ignore
+                if victim_coin_amount_start <= 0:  # If victim has no coins to be mugged
+                    mugging_embed.description = f"But their wallet was empty!"
+                else:
+                    await self.bot.change_token_amount(COINS, victim, -victim_mugging_amount)
+                    await self.bot.change_token_amount(COINS, attacker, victim_mugging_amount)  # type: ignore
+                    victim_coin_amount_end -= victim_mugging_amount
+                    attacker_coin_amount_end += victim_mugging_amount
+                    mugging_embed.description = f"And got away with {victim_mugging_amount} {'coin' if victim_mugging_amount == 1 else 'coins'}!"
 
-                await self.bot.change_token_amount(COINS, victim, -victim_mugging_amount)
-                await self.bot.change_token_amount(COINS, attacker, victim_mugging_amount)  # type: ignore
-                await ctx.respond(
-                    embed=discord.Embed(
-                        title=f"{attacker.name} mugged {victim.name}!",  # type: ignore
-                        description=f"And got away with {victim_mugging_amount} {'coin' if victim_mugging_amount == 1 else 'coins'}!",  # type: ignore
-                        color=discord.Color.brand_green(),
-                    ),
-                )
-            case 2:
-                # Mugging was unsuccessful
-                await ctx.respond(
-                    embed=discord.Embed(
-                        title=f"{attacker.name} attempted to mug {victim.name}",  # type: ignore
-                        description=f"but they got away.",  # type: ignore
-                        color=discord.Color.greyple(),
-                    ),
-                )
-            case 3:
-                # Mugging was VERY unsuccessful
-                if attacker_coin_amount <= 0:
-                    await ctx.respond(
-                        embed=discord.Embed(
-                            title=f"{attacker.name} attempted to mug {victim.name}",  # type: ignore
-                            description=f"{victim.name} overcame {attacker.name}, but their wallet was empty.",  # type: ignore
-                            color=discord.Color.dark_red(),
-                        ),
-                    )
-                    return
+            case 2:  # Mugging was unsuccessful
+                mugging_embed.title = f"{attacker.name} attempted to mug {victim.name}"  # type: ignore
+                mugging_embed.description = "but they got away."
+                mugging_embed.color = discord.Color.greyple()
 
-                await self.bot.change_token_amount(COINS, victim, attacker_mugging_amount)
-                await self.bot.change_token_amount(COINS, attacker, -attacker_mugging_amount)  # type: ignore
-                await ctx.respond(
-                    embed=discord.Embed(
-                        title=f"{attacker.name} made a grave mistake mugging {victim.name}",  # type: ignore
-                        description=f"{victim.name} fought back, {attacker.name} lost {attacker_mugging_amount} {'coin' if attacker_mugging_amount == 1 else 'coins'}.",  # type: ignore
-                        color=discord.Color.dark_red(),
-                    ),
-                )
+            case 3:  # Mugging was VERY unsuccessful
+                mugging_embed.title = f"{attacker.name} attempted to mug {victim.name}"  # type: ignore
+                mugging_embed.color = discord.Color.dark_red()
+                if attacker_coin_amount_start <= 0:  # Attacker lost to victim, but has no coins
+                    mugging_embed.description = f"{victim.name} overcame {attacker.name}, but their wallet was empty."  # type: ignore
+                else:
+                    await self.bot.change_token_amount(COINS, victim, attacker_mugging_amount)
+                    await self.bot.change_token_amount(COINS, attacker, -attacker_mugging_amount)  # type: ignore
+                    victim_coin_amount_end += attacker_mugging_amount
+                    attacker_coin_amount_end -= attacker_mugging_amount
+                    mugging_embed.description = f"{victim.name} fought back, {attacker.name} lost {attacker_mugging_amount} {'coin' if attacker_mugging_amount == 1 else 'coins'}."  # type: ignore
+
+        mugging_embed.add_field(name=f"{attacker.name}", value=f"💰 {str(attacker_coin_amount_end)}")  # type: ignore
+        mugging_embed.add_field(name=f"{victim.name}", value=f"💰 {str(victim_coin_amount_end)}")
+        await ctx.respond(embed=mugging_embed)
 
     @mug.error
     async def on_application_command_error(
@@ -120,8 +101,8 @@ class MuggingGame(commands.Cog, name="Games"):
             await ctx.respond(
                 embed=discord.Embed(
                     title="You're on cooldown! 🥶",
-                    description="You must wait 1m between muggings"
-                    # description=f"{ctx.command.get_cooldown_retry_after}s remaining",
+                    description=f"You have **{round(ctx.command.get_cooldown_retry_after(ctx=ctx))}**s remaining",
+                    color=discord.Color.from_rgb(78, 167, 232),
                 ),
                 ephemeral=True,
             )
