@@ -31,21 +31,33 @@ class MuggingGame(commands.Cog, name="Games"):
         attacker = ctx.author
         victim = member
 
+        # Get how many coins are in each wallet
         attacker_coin_amount = await self.bot.get_token_amount(COINS, attacker)  # type: ignore
         victim_coin_amount = await self.bot.get_token_amount(COINS, victim)
 
+        # Pick the amount lost if respective party were to lose an encounter
+        # It is possible to lose upto 1/4 of one's current wallet in an encounter
+        # If the user has <4 coins, the most that can be taken is 1
         attacker_mugging_amount = random.randint(1, attacker_coin_amount // 4 or 1)
         victim_mugging_amount = random.randint(1, attacker_coin_amount // 4 or 1)
 
+        # "You can't mug yourself" guard
         if attacker == victim:
             await ctx.respond(
                 embed=discord.Embed(
-                    title=f"In a failed attempt to mug themselves, {attacker.display_name} lost.",  # type: ignore
+                    title=f"In a failed attempt to mug themselves, {attacker.name} lost.",  # type: ignore
                     color=discord.Color.blurple(),
                 ),
             )
             return
 
+        """
+        The actually mugging encounter is handled as follows
+        - A random number is rolled, 1-3. This is stored in `mugging_outcome`
+        - If 1: the attacker successfully mugs the victim and takes coins (if any)
+        - If 2: the attacker was unsuccessful and no coins are changed.
+        - If 3: the attacker was "VERY" unsuccessful, and will actually lose coins to the victim
+        """
         mugging_outcome = random.randint(1, 3)
         match mugging_outcome:
             case 1:
@@ -53,7 +65,7 @@ class MuggingGame(commands.Cog, name="Games"):
                 if victim_coin_amount <= 0:
                     await ctx.respond(
                         embed=discord.Embed(
-                            title=f"{attacker.display_name} mugged {victim.display_name}!",  # type: ignore
+                            title=f"{attacker.name} mugged {victim.name}!",  # type: ignore
                             description=f"But their wallet was empty!",  # type: ignore
                             color=discord.Color.brand_green(),
                         ),
@@ -64,7 +76,7 @@ class MuggingGame(commands.Cog, name="Games"):
                 await self.bot.change_token_amount(COINS, attacker, victim_mugging_amount)  # type: ignore
                 await ctx.respond(
                     embed=discord.Embed(
-                        title=f"{attacker.display_name} mugged {victim.display_name}!",  # type: ignore
+                        title=f"{attacker.name} mugged {victim.name}!",  # type: ignore
                         description=f"And got away with {victim_mugging_amount} {'coin' if victim_mugging_amount == 1 else 'coins'}!",  # type: ignore
                         color=discord.Color.brand_green(),
                     ),
@@ -73,7 +85,7 @@ class MuggingGame(commands.Cog, name="Games"):
                 # Mugging was unsuccessful
                 await ctx.respond(
                     embed=discord.Embed(
-                        title=f"{attacker.display_name} attempted to mug {victim.display_name}",  # type: ignore
+                        title=f"{attacker.name} attempted to mug {victim.name}",  # type: ignore
                         description=f"but they got away.",  # type: ignore
                         color=discord.Color.greyple(),
                     ),
@@ -83,8 +95,8 @@ class MuggingGame(commands.Cog, name="Games"):
                 if attacker_coin_amount <= 0:
                     await ctx.respond(
                         embed=discord.Embed(
-                            title=f"{attacker.display_name} attempted to mug {victim.display_name}",  # type: ignore
-                            description=f"{victim.display_name} overcame {attacker.display_name}, but their wallet was empty.",  # type: ignore
+                            title=f"{attacker.name} attempted to mug {victim.name}",  # type: ignore
+                            description=f"{victim.name} overcame {attacker.name}, but their wallet was empty.",  # type: ignore
                             color=discord.Color.dark_red(),
                         ),
                     )
@@ -94,8 +106,8 @@ class MuggingGame(commands.Cog, name="Games"):
                 await self.bot.change_token_amount(COINS, attacker, -attacker_mugging_amount)  # type: ignore
                 await ctx.respond(
                     embed=discord.Embed(
-                        title=f"{attacker.display_name} made a grave mistake..",  # type: ignore
-                        description=f"{victim.display_name} fought back, {attacker.display_name} lost {attacker_mugging_amount} {'coin' if attacker_mugging_amount == 1 else 'coins'}.",  # type: ignore
+                        title=f"{attacker.name} made a grave mistake mugging {victim.name}",  # type: ignore
+                        description=f"{victim.name} fought back, {attacker.name} lost {attacker_mugging_amount} {'coin' if attacker_mugging_amount == 1 else 'coins'}.",  # type: ignore
                         color=discord.Color.dark_red(),
                     ),
                 )
