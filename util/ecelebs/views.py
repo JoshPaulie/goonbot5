@@ -27,7 +27,7 @@ class eCelebView(discord.ui.View):
         twitch_embed = discord.Embed()
 
         if eCeleb_twitch is None:
-            await interaction.edit_original_message(
+            await interaction.message.edit(  # type: ignore
                 embed=discord.Embed(
                     title=f"{self.twitch_username} could not be found.",
                     description="_Were they banned? Or a name change?_",
@@ -49,7 +49,7 @@ class eCelebView(discord.ui.View):
             twitch_embed.set_thumbnail(url=eCeleb_twitch.offline_image_url)
             twitch_embed.color = discord.Color.light_grey()
 
-        await interaction.edit_original_message(embed=twitch_embed, view=None)
+        await interaction.message.edit(embed=twitch_embed, view=None)  # type: ignore
 
     @discord.ui.button(label="YouTube", style=discord.ButtonStyle.primary, emoji="📺")
     async def youtube_button_callback(self, button: discord.ui.Button, interaction: discord.Interaction):
@@ -61,4 +61,4 @@ class eCelebView(discord.ui.View):
         lastest_upload_id = playlist_items.items[0].contentDetails.videoId  # type: ignore
         lastest_upload_url = f"https://www.youtube.com/watch?v={lastest_upload_id}"
 
-        await interaction.edit_original_message(content=lastest_upload_url, view=None)
+        await interaction.message.edit(content=lastest_upload_url, view=None)  # type: ignore
