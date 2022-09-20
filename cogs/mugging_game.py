@@ -15,7 +15,6 @@ class MuggingGame(commands.Cog, name="Games"):
     @user_command(name="💰 Check Coins")
     async def check_coins_user_command(self, ctx: discord.ApplicationContext, member: discord.Member):
         """Check to see how many coin tokens a user has"""
-        await self.bot.change_token_amount(COINS, member, 0)  # Adds 'Coins' token to document if not already
         coin_amount = await self.bot.get_token_amount(COINS, member)
         await ctx.respond(
             embed=discord.Embed(
