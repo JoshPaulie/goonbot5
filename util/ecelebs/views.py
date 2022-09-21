@@ -15,12 +15,18 @@ class eCelebView(discord.ui.View):
         self.youtube_channel_id = youtube_channel_id
         super().__init__()
 
-        self.children[0].disabled = True if self.twitch_username is None else False  # type: ignore
-        self.children[1].disabled = True if self.youtube_channel_id is None else False  # type: ignore
+        twitch_button = discord.ui.Button(label="Twitch", style=discord.ButtonStyle.primary, emoji="🎥")
+        twitch_button.callback = self.twitch_button_callback
+        youtube_button = discord.ui.Button(label="YouTube", style=discord.ButtonStyle.primary, emoji="📺")
+        youtube_button.callback = self.youtube_button_callback
 
-    @discord.ui.button(label="Twitch", style=discord.ButtonStyle.primary, emoji="🎥")
-    # Although the button paramater is unused, it is required to be passed (for whatever reason)
-    async def twitch_button_callback(self, button: discord.ui.Button, interaction: discord.Interaction):
+        if self.twitch_username:
+            self.add_item(twitch_button)
+
+        if self.youtube_channel_id:
+            self.add_item(youtube_button)
+
+    async def twitch_button_callback(self, interaction: discord.Interaction):
         ttv = twitch.Helix(TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET)
         eCeleb_twitch = ttv.user(self.twitch_username)  # type: ignore
 
@@ -51,8 +57,7 @@ class eCelebView(discord.ui.View):
 
         await interaction.message.edit(embed=twitch_embed, view=None)  # type: ignore
 
-    @discord.ui.button(label="YouTube", style=discord.ButtonStyle.primary, emoji="📺")
-    async def youtube_button_callback(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def youtube_button_callback(self, interaction: discord.Interaction):
         yt = pyyoutube.Api(api_key=GOOGLE)
 
         channel_info = yt.get_channel_info(channel_id=self.youtube_channel_id)
