@@ -88,16 +88,17 @@ class General(commands.Cog):
 
     @user_command(name="🔎 Account Info")
     async def about_user(self, ctx: discord.ApplicationContext, member: discord.Member):
-        """about"""
+        """Learn about an accounts creation and joining info"""
         embed = discord.Embed(title=member.display_name, color=member.color)
+        if member.joined_at and ctx.guild:
+            embed.add_field(
+                name=f"Joined {ctx.guild.name}",
+                value=member.joined_at.strftime("%b %d %Y"),
+                inline=False,
+            )
         embed.add_field(
-            name=f"Joined {ctx.guild.name}",  # type: ignore
-            value=member.joined_at.strftime("%b %d %Y"),  # type: ignore
-            inline=False,
-        )
-        embed.add_field(
-            name=f"Joined Discord",  # type: ignore
-            value=member.created_at.strftime("%b %d %Y"),  # type: ignore
+            name="Joined Discord",
+            value=member.created_at.strftime("%b %d %Y"),
             inline=False,
         )
         embed.set_thumbnail(url=member.display_avatar.url)
