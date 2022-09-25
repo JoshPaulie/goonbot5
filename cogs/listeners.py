@@ -13,6 +13,11 @@ class Listeners(commands.Cog, name="listeners"):
     #     """Reference listener"""
     #     print(message.content)
 
+    @commands.Cog.listener(name="on_application_command")
+    async def on_application_command_listener(self, ctx: discord.ApplicationContext):
+        """Fires after an app command is used."""
+        self.bot.console.log(f"{ctx.author.name} used {ctx.command.qualified_name}")  # type: ignore
+
 
 def setup(bot):
     bot.add_cog(Listeners(bot))
