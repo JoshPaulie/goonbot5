@@ -63,6 +63,7 @@ class Art(commands.Cog):
             "https://c.tenor.com/R0_afzSWuPMAAAAd/fat-guy.gif",
             "https://c.tenor.com/Lwn2wbmAXboAAAAd/skeleton.gif",
             "https://c.tenor.com/mrAgjI8uBI4AAAAC/skeleton-dance-skeletons.gif",
+            "https://c.tenor.com/fYKFtYSPTA8AAAAd/cat-dance.gif",
         ]
         await self.send_art_embed(ctx, evidence)
 
