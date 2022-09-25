@@ -18,7 +18,7 @@ class MuggingGame(commands.Cog, name="Games"):
         coin_amount = await self.bot.get_token_amount(COINS, member)
         await ctx.respond(
             embed=discord.Embed(
-                title=f"💰 {member.display_name} has {coin_amount} {'coin' if coin_amount == 1 else 'coins'}",
+                title=f"💰 {member.name} has {coin_amount} {'coin' if coin_amount == 1 else 'coins'}",
                 color=discord.Color.blurple(),
             )
         )
@@ -88,8 +88,10 @@ class MuggingGame(commands.Cog, name="Games"):
                     attacker_coin_amount_end -= attacker_mugging_amount
                     mugging_embed.description = f"{victim.name} fought back, {attacker.name} lost {attacker_mugging_amount} {'coin' if attacker_mugging_amount == 1 else 'coins'}."  # type: ignore
 
-        mugging_embed.add_field(name=f"{attacker.name}", value=f"💰 {str(attacker_coin_amount_end)}")  # type: ignore
-        mugging_embed.add_field(name=f"{victim.name}", value=f"💰 {str(victim_coin_amount_end)}")
+        mugging_embed.add_field(name=f"{attacker.name}", value=f"{attacker.mention}\n💰 {str(attacker_coin_amount_end)}")  # type: ignore
+        mugging_embed.add_field(
+            name=f"{victim.name}", value=f"{victim.mention}\n💰 {str(victim_coin_amount_end)}"
+        )
         await ctx.respond(embed=mugging_embed)
 
     @mug.error
