@@ -1,7 +1,7 @@
 import random
 
 import discord
-from discord.commands import user_command
+from discord.commands import slash_command, user_command
 from discord.ext import commands
 from goonbot import GoonBot
 
@@ -22,6 +22,22 @@ class MuggingGame(commands.Cog, name="Games"):
                 color=discord.Color.blurple(),
             )
         )
+
+    @slash_command()
+    async def coins(self, ctx: discord.ApplicationContext):
+        """Check how many coins everyone has 😏"""
+        coins_embed = discord.Embed(title="Bank! 🏧", color=discord.Color.blurple())
+
+        token_docs = []
+        token_docs_cursor = self.bot.tokens.find()
+        async for doc in token_docs_cursor:
+            token_docs.append(doc)
+
+        # LOL
+        coins_embed.description = "\n".join(
+            [f"{ctx.guild.get_member(d['_id']).mention}: {d['coins']}" for d in token_docs]  # type: ignore
+        )
+        await ctx.respond(embed=coins_embed)
 
     @user_command(name="👊 Mug")
     @commands.cooldown(1, 60, type=commands.BucketType.user)
