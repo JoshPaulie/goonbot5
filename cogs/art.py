@@ -77,6 +77,11 @@ class Art(commands.Cog):
             ],
         )
 
+    @slash_command(name="huh")
+    async def huh(self, ctx: discord.ApplicationContext):
+        """An NPC just had an obscure voice line"""
+        await self.send_art_embed(ctx, ["https://media.tenor.com/YYw8_Cvr-wQAAAAd/stoned-cat.gif"])
+
 
 def setup(bot):
     bot.add_cog(Art(bot))
