@@ -28,12 +28,15 @@ class MuggingGame(commands.Cog, name="Games"):
         """Check how many coins everyone has 😏"""
         coins_embed = discord.Embed(title="Coins! 💰", color=discord.Color.blurple())
 
+        # ? "Couldn't this be a list comprehension" ?
+        # Nope. 😊
         token_docs = []
         token_docs_cursor = self.bot.tokens.find()
         async for doc in token_docs_cursor:
             token_docs.append(doc)
 
-        # LOL
+        #                LOL                #
+        # ~~ future employers look away ~~  #
         coins_embed.description = "\n".join(
             [f"{ctx.guild.get_member(d['_id']).mention}: {d['coins']}" for d in token_docs]  # type: ignore
         )
@@ -50,7 +53,7 @@ class MuggingGame(commands.Cog, name="Games"):
         mugging_embed = discord.Embed(color=discord.Color.blurple())
 
         # Get how many coins are in each wallet before encounter
-        # The end amount will be manipulated throughout the encounter, eliminating the need for another server call later
+        # The "end amount" will be manipulated throughout the encounter, eliminating the need for another server call later
         attacker_coin_amount_start = attacker_coin_amount_end = await self.bot.get_token_amount(COINS, attacker)  # type: ignore
         victim_coin_amount_start = victim_coin_amount_end = await self.bot.get_token_amount(COINS, victim)
 
