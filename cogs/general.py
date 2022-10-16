@@ -86,25 +86,6 @@ class General(commands.Cog):
             emote = ["🖕", "😎", "🤫"]
             await ctx.send(f"gotcha, nerd {random.choice(emote)}", delete_after=1)
 
-    @user_command(name="🔎 Account Info")
-    async def about_user(self, ctx: discord.ApplicationContext, member: discord.Member):
-        """Learn about an accounts creation and joining info"""
-        embed = discord.Embed(title=member.display_name, color=member.color)
-        if member.joined_at and ctx.guild:
-            embed.add_field(
-                name=f"Joined {ctx.guild.name}",
-                value=member.joined_at.strftime("%b %d %Y"),
-                inline=False,
-            )
-        embed.add_field(
-            name="Joined Discord",
-            value=member.created_at.strftime("%b %d %Y"),
-            inline=False,
-        )
-        embed.set_thumbnail(url=member.display_avatar.url)
-        embed.set_footer(text=f"ID: {member.id}")
-        await ctx.respond(embed=embed)
-
 
 def setup(bot):
     bot.add_cog(General(bot))
