@@ -23,15 +23,20 @@ class GoonBot(discord.Bot):
                 bans=True,
                 message_content=True,
             ),
-            owner_ids=[177131156028784640],  # Bexli
-            debug_guilds=[510865274594131968, 177125557954281472],  # [Debug guild, g00n guild]
+            owner_ids=[
+                177131156028784640,  # Bexli
+            ],
+            debug_guilds=[
+                510865274594131968,  # Debug guild
+                177125557954281472,  # g00n guild
+            ],
         )
 
         collect_cogs()
         load_cogs(self)
 
         self.startup = arrow.now()
-        self.console = Console()
+        self.console = Console(log_time_format="[%b %d, %y @ %H:%M:%S]")
         self.db = db
 
     async def on_ready(self):
