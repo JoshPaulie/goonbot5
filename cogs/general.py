@@ -86,6 +86,22 @@ class General(commands.Cog):
             emote = ["🖕", "😎", "🤫"]
             await ctx.send(f"gotcha, nerd {random.choice(emote)}", delete_after=1)
 
+    @slash_command(name="chooseforme")
+    async def choose_for_me(
+        self,
+        ctx: discord.ApplicationContext,
+        options: discord.Option(str, "Enter choices, separated by a comma"),  # type: ignore
+    ):
+        """Have goonbot pick from a list of choices"""
+        # Todo make this into a modal with title ? :thonking:
+        cleaned_options = [option.strip() for option in options.split(",")]
+        embed = discord.Embed(
+            title=random.choice(cleaned_options),
+            description=f"*goonbot has chosen from...*\n{', '.join(cleaned_options)}",
+            color=discord.Color.brand_green(),
+        )
+        await ctx.respond(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(General(bot))
