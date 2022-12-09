@@ -1,12 +1,13 @@
 import random
+from typing import Any
 
 import discord
 from discord.ext import commands
 
 
-def same(lst):
-    base = lst[0]
-    for item in lst:
+def same(l: list[Any]) -> bool:
+    base = l[0]
+    for item in l:
         if base != item:
             return False
     return True
@@ -31,6 +32,11 @@ class Listeners(commands.Cog, name="listeners"):
     async def chatting_watch(self, message: discord.Message):
         """Adds a :Chatting: reaction to anyone who posts 5 times consecutively"""
         author = message.author
+
+        # ignores user who uses text channels while muted
+        if author.id != 104488848309895168:
+            return
+
         self.message_queue.append(author)
 
         if not same(self.message_queue):
