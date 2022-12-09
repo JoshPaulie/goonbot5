@@ -34,7 +34,7 @@ class Listeners(commands.Cog, name="listeners"):
         author = message.author
 
         # ignores user who uses text channels while muted
-        if author.id != 104488848309895168:
+        if author.id == 104488848309895168:
             return
 
         self.message_queue.append(author)
