@@ -3,6 +3,7 @@ import datetime
 import discord
 from discord.commands import slash_command
 from discord.ext import commands
+
 from goonbot import GoonBot
 from util.countdown.countdown_tools import get_special_events_remaining
 
@@ -14,16 +15,22 @@ class Countdown(commands.Cog):
     @slash_command()
     async def today(self, ctx: discord.ApplicationContext) -> None:
         """Returns if it's a special day, or when the next one will be"""
-        special_events_remaining = get_special_events_remaining(datetime.date.today())
+        today = datetime.date.today()
+        special_events_remaining = get_special_events_remaining(today)
         next_event, next_event_days_until = special_events_remaining[0]
-        second_event, second_event_days_until = special_events_remaining[1]
+        second_event, second_event_days_until = None, None
+        if len(special_events_remaining) > 2:
+            second_event, second_event_days_until = special_events_remaining[1]
 
         event_embed = discord.Embed(color=discord.Color.blurple())
         if next_event_days_until == 0:
             event_embed.title = f"Today is {next_event}!"
         else:
             event_embed.title = f"{next_event} is in {next_event_days_until} days!"
-            event_embed.description = f"...and {second_event} is in {second_event_days_until}"
+            if second_event:
+                event_embed.description = f"...and {second_event} is in {second_event_days_until}"
+            else:
+                event_embed.description = f"That's it for {today.year}! See you next year 🤗"
 
         if next_event_days_until == 1:
             event_embed.title = f"{next_event} is tomorrow! 🎉"
