@@ -7,8 +7,9 @@ BIRTHDAYS = {
     "Hudson": datetime.date(current_year, 2, 14),
     "Chris": datetime.date(current_year, 4, 21),
     "Alex": datetime.date(current_year, 4, 15),
-    "Daniel": datetime.date(current_year, 4, 3),
-    "Lex": datetime.date(current_year, 5, 20),
+    # 💔
+    # "Daniel": datetime.date(current_year, 4, 3),
+    # "Lex": datetime.date(current_year, 5, 20),
     "Justin": datetime.date(current_year, 6, 12),
     "Josh": datetime.date(current_year, 6, 27),
     "Matt": datetime.date(current_year, 9, 24),
